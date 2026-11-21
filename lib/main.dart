@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'database/database_helper.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await DatabaseHelper.instance.database;
+
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,11 +22,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Cobrança Fácil'),
+          title: const Text(
+            'Cobrança Fácil',
+          ),
         ),
         body: const Center(
           child: Text(
-            'Projeto iniciado com sucesso!',
+            'Banco SQLite inicializado com sucesso!',
           ),
         ),
       ),
