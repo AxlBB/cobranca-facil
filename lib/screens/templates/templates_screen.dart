@@ -91,19 +91,72 @@ class _TemplatesScreenState
 
                     final template =
                         templates[index];
-
                     return ListTile(
-                      title: Text(
-                        template.nome,
-                      ),
+                    title: Text(
+                      template.nome,
+                    ),
 
-                      subtitle: Text(
-                        template.conteudo,
-                        maxLines: 2,
-                        overflow:
-                            TextOverflow.ellipsis,
-                      ),
-                    );
+                    subtitle: Text(
+                      template.conteudo,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                    onLongPress: () async {
+
+                      final confirmar =
+                          await showDialog<bool>(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text(
+                              'Excluir Template',
+                            ),
+                            content: const Text(
+                              'Deseja realmente excluir este template?',
+                            ),
+                            actions: [
+
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(
+                                    context,
+                                    false,
+                                  );
+                                },
+                                child: const Text(
+                                  'Cancelar',
+                                ),
+                              ),
+
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(
+                                    context,
+                                    true,
+                                  );
+                                },
+                                child: const Text(
+                                  'Excluir',
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (confirmar != true) {
+                        return;
+                      }
+
+                      await _repository.excluir(
+                        template.id!,
+                      );
+
+                      await carregarTemplates();
+                    },
+                  );
+                    
                   },
                 ),
     );
