@@ -1,26 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'database/database_helper.dart';
-import 'repositories/settings_repository.dart';
+import 'screens/settings/settings_screen.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await DatabaseHelper.instance.database;
-
-  final repository = SettingsRepository();
-
-  await repository.salvarAnalista(
-    'Alex Barbosa',
-  );
-
-  final settings =
-      await repository.obter();
-
-  print(
-    'Analista: ${settings.nomeAnalista}',
-  );
-
+void main() {
   runApp(
     const MyApp(),
   );
@@ -31,21 +13,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cobrança Fácil',
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Cobrança Fácil',
-          ),
-        ),
-        body: const Center(
-          child: Text(
-            'Banco SQLite inicializado com sucesso!',
-          ),
-        ),
-      ),
+      home: SettingsScreen(),
     );
   }
 }
