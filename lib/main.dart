@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'screens/settings/settings_screen.dart';
+
+import 'screens/templates/templates_screen.dart';
 
 void main() {
   runApp(
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SettingsScreen(),
+      home: TemplatesScreen(),
     );
   }
 }
