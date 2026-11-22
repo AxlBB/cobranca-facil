@@ -46,4 +46,19 @@ class TemplateRepository {
       whereArgs: [id],
     );
   }
+
+  Future<int> atualizar(
+    TemplateMessage template,
+  ) async {
+
+    final db =
+        await DatabaseHelper.instance.database;
+
+    return await db.update(
+      'templates',
+      template.toMap(),
+      where: 'id = ?',
+      whereArgs: [template.id],
+    );
+}
 }

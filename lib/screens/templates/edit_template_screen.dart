@@ -4,7 +4,13 @@ import '../../models/template_message.dart';
 import '../../repositories/template_repository.dart';
 
 class EditTemplateScreen extends StatefulWidget {
-  const EditTemplateScreen({super.key});
+
+  final TemplateMessage? template;
+
+  const EditTemplateScreen({
+    super.key,
+    this.template,
+  });
 
   @override
   State<EditTemplateScreen> createState() =>
@@ -24,12 +30,27 @@ class _EditTemplateScreenState
       TemplateRepository();
 
   @override
+    void initState() {
+      super.initState();
+
+      if (widget.template != null) {
+        _nomeController.text =
+            widget.template!.nome;
+
+        _conteudoController.text =
+            widget.template!.conteudo;
+      }
+    }
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Novo Template',
+        title: Text(
+          widget.template == null
+              ? 'Novo Template'
+              : 'Editar Template',
         ),
       ),
       body: Padding(
@@ -78,10 +99,11 @@ class _EditTemplateScreenState
                     return;
                   }
 
+                  if (widget.template == null) {
+
                   final template =
                       TemplateMessage(
-                    nome:
-                        _nomeController.text.trim(),
+                    nome: _nomeController.text.trim(),
                     conteudo:
                         _conteudoController.text.trim(),
                     criadoEm: DateTime.now(),
@@ -90,6 +112,25 @@ class _EditTemplateScreenState
                   await _repository.inserir(
                     template,
                   );
+
+                } else {
+
+                  final template =
+                      TemplateMessage(
+                    id: widget.template!.id,
+                    nome: _nomeController.text.trim(),
+                    conteudo:
+                        _conteudoController.text.trim(),
+                    criadoEm:
+                        widget.template!.criadoEm,
+                    atualizadoEm:
+                        DateTime.now(),
+                  );
+
+                  await _repository.atualizar(
+                    template,
+                  );
+                }
 
                   if (!mounted) return;
 
